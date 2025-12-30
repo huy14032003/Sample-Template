@@ -4,6 +4,8 @@ import AuthPage from '@pages/auth/AuthPage'
 import { AUTHENTICATION } from "@constants/route.constant";
 import AuthLayout from "@components/layouts/auth-layout/AuthLayout";
 import NotFound from "@components/Error/NotFound";
+import HomePage from "@pages/home/HomePage";
+import DashboardPage from "@pages/dashboard/DashboardPage";
 
 const authentication = {
     path: AUTHENTICATION,
@@ -17,10 +19,36 @@ const authentication = {
     ]
 }
 
+const home = {
+    path: '/home',
+    errorElement: createElement(NotFound),
+    children: [
+        {
+            index: true,
+            element: createElement(HomePage)
+        },
+
+    ]
+}
+
+const dashboard = {
+    path: '/dashboard',
+    errorElement: createElement(NotFound),
+    children: [
+        {
+            index: true,
+            element: createElement(DashboardPage)
+        },
+
+    ]
+}
+
 export const AppRoutes = createBrowserRouter([
     {
         path: '/',
-        element: createElement(Navigate, { to: AUTHENTICATION + '/login', replace: true })
+        element: createElement(Navigate, { to: '/home', replace: true })
     },
     authentication,
+    home,
+    dashboard,
 ])

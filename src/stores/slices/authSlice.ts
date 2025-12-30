@@ -1,5 +1,5 @@
 import { CookieExpiry, CookieKey } from '@/constants/fetchBaseCustom.constant'
-import { AuthState } from '@/types/auth/auth.types'
+import { AuthState } from '@/features/auth'
 import { decodeToken } from '@/utils'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'

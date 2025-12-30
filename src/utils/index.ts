@@ -1,5 +1,5 @@
 
-import { JwtPayload } from '@/types/auth/auth.types'
+import { JwtPayload } from '@/features/auth'
 import { jwtDecode } from 'jwt-decode'
 
 

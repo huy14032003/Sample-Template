@@ -13,7 +13,7 @@ export const apiService = createApi({
 export const authApiService = createApi({
   reducerPath: 'authApi',
   baseQuery: baseQueryCustom,
-  tagTypes: ['Auth'],
+  tagTypes: ['Auth', 'Dashboard'],
   endpoints: () => ({}),
   refetchOnMountOrArgChange: true
 })
