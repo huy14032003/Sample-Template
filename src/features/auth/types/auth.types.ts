@@ -35,3 +35,9 @@ export interface AuthState {
     refreshToken: string | null
     profile: Profile
 }
+
+
+export interface LoginFormValues  {
+  username: string;
+  password: string;
+};

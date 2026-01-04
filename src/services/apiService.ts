@@ -1,19 +1,32 @@
-import { fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { ENV } from '@/constants/env.constant'
-import { CookieKey } from '@/constants/fetchBaseCustom.constant'
-import Cookies from 'js-cookie'
-
+import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { ENV } from "@/constants/env.constant";
+import { CookieKey } from "@/constants/fetchBaseCustom.constant";
+import Cookies from "js-cookie";
 
 export const baseQueryCustom = fetchBaseQuery({
-  baseUrl: ENV.API_FEE,
-  credentials: 'include',
+  baseUrl: ENV.API_LOGIN,
+  credentials: "include",
   prepareHeaders: (headers) => {
-    const accessToken = Cookies.get(CookieKey.ACCESS_TOKEN)
+    const accessToken = Cookies.get(CookieKey.ACCESS_TOKEN);
     if (accessToken) {
-      headers.set('authorization', `Bearer ${accessToken}`)
+      headers.set("authorization", `Bearer ${accessToken}`);
     }
-    return headers
-  }
-})
+    return headers;
+  },
+});
+export const feeBaseQueryCustom = fetchBaseQuery({
+  baseUrl: ENV.API_FEE,
+  credentials: "include",
+  prepareHeaders: (headers) => {
+    const accessToken = Cookies.get(CookieKey.ACCESS_TOKEN);
+    if (accessToken) {
+      headers.set("authorization", `Bearer ${accessToken}`);
+    }
+    return headers;
+  },
+});
 
-
+export const baseRefreshQuery = fetchBaseQuery({
+  baseUrl: ENV.API_LOGIN,
+  credentials: "include",
+});

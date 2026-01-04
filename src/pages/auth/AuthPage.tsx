@@ -1,9 +1,11 @@
-import React from 'react'
+import { LoginFeature } from "@/features/auth";
 
 const AuthPage = () => {
-    return (
-        <div>AuthPage</div>
-    )
-}
+  return (
+    <>
+      <LoginFeature />
+    </>
+  );
+};
 
-export default AuthPage
+export default AuthPage;

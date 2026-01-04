@@ -1,10 +1,10 @@
-import { baseQueryCustom } from "@/services/apiService";
+import { fetchBaseQueryCustom, fetchBaseQueryFee } from "@/configs/fetchBaseQueryCustom";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-export const apiService = createApi({
-  baseQuery: baseQueryCustom,
+export const apiFeeService = createApi({
+  baseQuery: fetchBaseQueryFee,
   tagTypes: [
-    'customerService',
+    'FeePolicy',
   ],
   endpoints: () => ({}),
   refetchOnMountOrArgChange: true
@@ -12,7 +12,7 @@ export const apiService = createApi({
 
 export const authApiService = createApi({
   reducerPath: 'authApi',
-  baseQuery: baseQueryCustom,
+  baseQuery: fetchBaseQueryCustom,
   tagTypes: ['Auth', 'Dashboard'],
   endpoints: () => ({}),
   refetchOnMountOrArgChange: true

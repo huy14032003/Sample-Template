@@ -1,15 +1,30 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
 import authReducer from './slices/authSlice'
-import { authApiService } from './api/baseApi'
+import themeReducer from './slices/themeSlice'
+import loadingReducer from './slices/loadingSlice'
+import { authApiService, apiFeeService } from './api/baseApi'
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { TypedUseSelectorHook, useSelector } from 'react-redux'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    theme: themeReducer,
+    loading: loadingReducer,
     [authApiService.reducerPath]: authApiService.reducer,
+    [apiFeeService.reducerPath]: apiFeeService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApiService.middleware),
+    getDefaultMiddleware().concat(authApiService.middleware, apiFeeService.middleware),
 })
+setupListeners(store.dispatch)
 
-export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector

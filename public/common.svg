@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol viewBox="0 0 24 24" id="svg-spinners-pulse-2">
+        <circle cx="12" cy="12" r="0" fill="currentColor">
+            <animate id="SVG0cdVlcnN" fill="freeze" attributeName="r"
+                begin="0;SVGftllRbIv.begin+0.6s" calcMode="spline" dur="1.2s"
+                keySplines=".52,.6,.25,.99" values="0;11"></animate>
+            <animate fill="freeze" attributeName="opacity" begin="0;SVGftllRbIv.begin+0.6s"
+                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0"></animate>
+        </circle>
+        <circle cx="12" cy="12" r="0" fill="currentColor">
+            <animate id="SVGftllRbIv" fill="freeze" attributeName="r" begin="SVG0cdVlcnN.begin+0.6s"
+                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="0;11"></animate>
+            <animate fill="freeze" attributeName="opacity" begin="SVG0cdVlcnN.begin+0.6s"
+                calcMode="spline" dur="1.2s" keySplines=".52,.6,.25,.99" values="1;0"></animate>
+        </circle>
+    </symbol>
+
+
+    <symbol viewBox="0 0 24 24" id="svg-spinners-bars-scale"><!-- Icon from SVG Spinners by Utkarsh
+        Verma - https://github.com/n3r4zzurr0/svg-spinners/blob/main/LICENSE -->
+        <rect width="2.8" height="12" x="1" y="6" fill="currentColor">
+            <animate id="SVGLQdHQe4p" attributeName="y" begin="0;SVGg3vsIeGm.end-0.1s"
+                calcMode="spline" dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                values="6;1;6"></animate>
+            <animate attributeName="height" begin="0;SVGg3vsIeGm.end-0.1s" calcMode="spline"
+                dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="12;22;12"></animate>
+        </rect>
+        <rect width="2.8" height="12" x="5.8" y="6" fill="currentColor">
+            <animate attributeName="y" begin="SVGLQdHQe4p.begin+0.1s" calcMode="spline" dur="0.6s"
+                keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="6;1;6"></animate>
+            <animate attributeName="height" begin="SVGLQdHQe4p.begin+0.1s" calcMode="spline"
+                dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="12;22;12"></animate>
+        </rect>
+        <rect width="2.8" height="12" x="10.6" y="6" fill="currentColor">
+            <animate attributeName="y" begin="SVGLQdHQe4p.begin+0.2s" calcMode="spline" dur="0.6s"
+                keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="6;1;6"></animate>
+            <animate attributeName="height" begin="SVGLQdHQe4p.begin+0.2s" calcMode="spline"
+                dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="12;22;12"></animate>
+        </rect>
+        <rect width="2.8" height="12" x="15.4" y="6" fill="currentColor">
+            <animate attributeName="y" begin="SVGLQdHQe4p.begin+0.3s" calcMode="spline" dur="0.6s"
+                keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="6;1;6"></animate>
+            <animate attributeName="height" begin="SVGLQdHQe4p.begin+0.3s" calcMode="spline"
+                dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="12;22;12"></animate>
+        </rect>
+        <rect width="2.8" height="12" x="20.2" y="6" fill="currentColor">
+            <animate id="SVGg3vsIeGm" attributeName="y" begin="SVGLQdHQe4p.begin+0.4s"
+                calcMode="spline" dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                values="6;1;6"></animate>
+            <animate attributeName="height" begin="SVGLQdHQe4p.begin+0.4s" calcMode="spline"
+                dur="0.6s" keySplines=".36,.61,.3,.98;.36,.61,.3,.98" values="12;22;12"></animate>
+        </rect>
+    </symbol>
+
+    <symbol viewBox="0 0 24 24" id="hugeicons-1st-bracket-circle"><!-- Icon from Huge Icons by
+        Hugeicons - undefined -->
+        <g fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9 8c-1.205.86-2 2.33-2 4s.795 3.14 2 4m6-8c1.206.86 2 2.33 2 4s-.794 3.14-2 4"></path>
+            <circle cx="12" cy="12" r="10"></circle>
+        </g>
+    </symbol>
+</svg>

@@ -1,29 +1,147 @@
-import { useAppSelector } from "@/stores/hooks";
-import React, { useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks";
+import { useEffect, useMemo } from "react";
+import { Outlet, useLocation, Navigate, Link } from "react-router-dom";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "./app-sidebar";
+import { toggleTheme } from "@/stores/slices/themeSlice";
+import usePermission from "@/hooks/usePermission";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "@/components/ui/breadcrumb";
+import { NavItem } from "@/types/nav.type";
+import { platformNavItems } from "@/configs/nav-config";
+
+// Convert path segment to readable title (e.g., "fee-management" -> "Fee Management")
+type NavMap = Record<string, string>;
+
+const buildNavTitleMap = (navItems: NavItem[]): NavMap => {
+  const map: NavMap = {};
+
+  navItems.forEach((nav) => {
+    map[nav.url] = nav.title;
+    nav.items?.forEach((item) => {
+      map[item.url] = item.title;
+    });
+  });
+
+  return map;
+};
+const formatPathSegment = (segment: string): string => {
+  return segment
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+const NAV_TITLE_MAP = buildNavTitleMap(platformNavItems);
+
+const getTitleFromPath = (path: string): string => {
+  return NAV_TITLE_MAP[path] ?? formatPathSegment(path.split("/").pop() ?? "");
+};
 
 const AppLayout = () => {
-  const navigate = useNavigate();
+  const { theme } = useAppSelector((state) => state.theme);
   const { accessToken } = useAppSelector((state) => state.auth);
-  useEffect(() => {
-    if (!accessToken) {
-      navigate("/auth/login");
+  const { isRouteAccessible } = usePermission();
+  const location = useLocation();
+  const dispatch = useAppDispatch();
+  const title = getTitleFromPath(location.pathname);
+
+  const breadcrumbItems = useMemo(() => {
+    const pathSegments = location.pathname.split("/").filter(Boolean);
+    if (pathSegments.length === 0) return [];
+
+    const items = pathSegments.map((segment, index) => {
+      const path = "/" + pathSegments.slice(0, index + 1).join("/");
+      const label = getTitleFromPath(path);
+      const isLast = index === pathSegments.length - 1;
+      return { path, label, isLast };
+    });
+
+    if (items.length > 4) {
+      return [
+        items[0], // First item
+        { path: "", label: "...", isLast: false, isEllipsis: true }, // Ellipsis
+        items[items.length - 1], // Last item
+      ];
     }
-  }, [accessToken, navigate]);
 
-  //   useEffect(() => {
-  //     if (!isAccess && location.pathname !== FORBIDDENERROR) {
-  //       navigate(FORBIDDENERROR);
-  //     }
-  //   }, [isAccess, location.pathname]);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const currentKey = useMemo(() => {
-    const selected = location.pathname.split("/");
-    return selected.filter((n) => n !== "");
+    return items;
   }, [location.pathname]);
 
-  return <div></div>;
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  useEffect(() => {
+    if (!accessToken) {
+      window.location.href = "/auth/login";
+    }
+  }, [accessToken]);
+
+  if (!isRouteAccessible) {
+    return <Navigate to="/403" replace />;
+  }
+
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="sticky top-0 z-50 flex h-16 shrink-0 justify-between items-center gap-2 border-b bg-background px-4">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" size="icon-lg" />
+            <div>
+              <span className="font-medium text-primary">{title}</span>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink asChild>
+                      <Link to="/">Flexpay</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  {breadcrumbItems.map((item, index) => (
+                    <div key={item.path || index} className="flex items-center gap-1.5">
+                      <BreadcrumbSeparator />
+                      <BreadcrumbItem>
+                        {"isEllipsis" in item && item.isEllipsis ? (
+                          <BreadcrumbEllipsis />
+                        ) : item.isLast ? (
+                          <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                        ) : (
+                          <BreadcrumbLink asChild>
+                            <Link to={item.path}>{item.label}</Link>
+                          </BreadcrumbLink>
+                        )}
+                      </BreadcrumbItem>
+                    </div>
+                  ))}
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
+          </div>
+          <button
+            onClick={() => dispatch(toggleTheme())}
+            className="rounded-full h-7 w-7 text-lg font-medium transition-all duration-300 
+                       bg-gray-300 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600
+                       shadow-lg hover:shadow-xl">
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
+        </header>
+        <main className="flex flex-1 flex-col gap-4 overflow-auto p-4 bg-main">
+          <Outlet />
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  );
 };
 
 export default AppLayout;

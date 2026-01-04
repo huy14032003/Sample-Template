@@ -1,7 +1,9 @@
+import FormLogin from "@/features/auth/components/FormLogin"
+
 // Login Feature placeholder component
 const LoginFeature = () => {
     return (
-        <div>Login Feature</div>
+        <div className="" ><FormLogin/></div>
     )
 }
 

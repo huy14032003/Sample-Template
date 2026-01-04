@@ -46,9 +46,14 @@ const authSlice = createSlice({
         savePermissions: (state, action: PayloadAction<string[]>) => {
             state.profile.permissions = action.payload
         },
+        setRefreshToken: (state, action: PayloadAction<string>) => {
+            Cookies.set(CookieKey.REFRESH_TOKEN, action.payload, { expires: CookieExpiry.REFRESH_TOKEN_MINUTES / 1440 })
+            state.refreshToken = action.payload
+        },
         logout() {
             Cookies.remove(CookieKey.ACCESS_TOKEN)
             Cookies.remove(CookieKey.REFRESH_TOKEN)
+            Cookies.remove('sidebar_state')
             return {
                 ...initialState,
                 accessToken: null
@@ -58,5 +63,5 @@ const authSlice = createSlice({
     },
 })
 
-export const { setAccessToken, logout } = authSlice.actions
+export const { setAccessToken, setRefreshToken, logout } = authSlice.actions
 export default authSlice.reducer
