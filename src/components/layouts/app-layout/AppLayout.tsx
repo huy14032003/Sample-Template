@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { NavItem } from "@/types/nav.type";
 import { platformNavItems } from "@/configs/nav-config";
+import { Globe, Languages, Moon, Sun } from "lucide-react";
 
 // Convert path segment to readable title (e.g., "fee-management" -> "Fee Management")
 type NavMap = Record<string, string>;
@@ -128,13 +129,17 @@ const AppLayout = () => {
               </Breadcrumb>
             </div>
           </div>
-          <button
-            onClick={() => dispatch(toggleTheme())}
-            className="rounded-full h-7 w-7 text-lg font-medium transition-all duration-300 
-                       bg-gray-300 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600
-                       shadow-lg hover:shadow-xl">
-            {theme === "light" ? "🌙" : "☀️"}
-          </button>
+          <div className="flex justify-center items-center gap-3  text-gray-600 dark:text-white ">
+
+            <button
+              onClick={() => dispatch(toggleTheme())}
+              className="rounded-full h-7 w-7 text-lg font-medium transition-all duration-300 cursor-pointer flex justify-center items-center  hover:text-gray-950  dark:hover:text-white">
+              {theme === "light" ? <Sun size={18}/>: <Moon size={18}/> }
+            </button>
+            <button className=" hover:text-gray-950 cursor-pointer dark:hover:text-white">
+              <Languages size={18}/>
+            </button>
+          </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 overflow-auto p-4 bg-main">
           <Outlet />
