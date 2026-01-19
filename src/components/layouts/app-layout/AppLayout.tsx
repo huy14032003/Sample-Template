@@ -96,8 +96,8 @@ const AppLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="sticky top-0 z-50 flex h-16 shrink-0 justify-between items-center gap-2 border-b bg-background px-4">
+      <SidebarInset className="flex flex-col h-screen overflow-hidden">
+        <header className="flex h-16 shrink-0 justify-between items-center gap-2 border-b bg-background px-4">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" size="icon-lg" />
             <div>
@@ -141,7 +141,7 @@ const AppLayout = () => {
             </button>
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 overflow-auto p-4 bg-main">
+        <main className="flex-1 flex flex-col gap-4 overflow-y-auto overflow-x-hidden p-4 bg-main min-w-0">
           <Outlet />
         </main>
       </SidebarInset>

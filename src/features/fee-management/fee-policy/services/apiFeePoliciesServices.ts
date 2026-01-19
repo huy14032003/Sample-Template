@@ -1,13 +1,16 @@
-import { apiFeeService } from "@/stores/api/baseApi";
 
+import { ResponseType } from "@/types/api";
+import { apiFeeService } from "@stores/api/baseApi";
+import { feePolicies, FeePoliciesResponse } from '@features/fee-management/fee-policy/types/feePolicies'
 export const feePolicyApi = apiFeeService.injectEndpoints({
-   endpoints: (build) => ({
+  endpoints: (build) => ({
     getFeePolicies: build.query({
       query: (pagination) => ({
         url: `/fee/policies`,
         method: "GET",
         params: pagination // { page, size, sortBy, sortDirection }
       }),
+      transformResponse: (res: ResponseType<FeePoliciesResponse>) => res.data,
       providesTags: ['FeePolicy']
     }),
     searchFeePolicies: build.query({
@@ -17,6 +20,7 @@ export const feePolicyApi = apiFeeService.injectEndpoints({
         params: params,
 
       }),
+      transformResponse: (res: ResponseType<FeePoliciesResponse>) => res.data,
       providesTags: ['FeePolicy']
     }),
     getFeePolicyById: build.query({
@@ -24,6 +28,7 @@ export const feePolicyApi = apiFeeService.injectEndpoints({
         url: `/fee/policies/${id}`,
         method: "GET"
       }),
+      transformResponse: (res: ResponseType<feePolicies>) => res.data,
       providesTags: ['FeePolicy']
     }),
     postNewPolicy: build.mutation({

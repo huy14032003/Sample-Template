@@ -28,9 +28,8 @@ const useLogin = () => {
       dispatch(setAccessToken(response?.data?.accessToken));
       dispatch(setRefreshToken(response?.data?.refreshToken));
       navigate("/");
-    } catch (error: unknown) {
-      const err = error as ErrorResponse;
-      toast.error(err?.data?.detail)
+    } catch {
+     
     }
   }
   return {

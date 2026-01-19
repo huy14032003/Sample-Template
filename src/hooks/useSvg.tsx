@@ -7,7 +7,7 @@ type SvgOptions = {
   className?: string
 }
 
-export function useSvg() {
+export function useSVG() {
   const svg = useCallback(
     (href: string, options?: SvgOptions) => {
       const size = options?.size ?? 20

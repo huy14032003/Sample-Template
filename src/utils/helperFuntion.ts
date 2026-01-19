@@ -4,6 +4,7 @@ import { ApiConfig, CookieKey, WhiteListItem } from "@/types/fetchBaseQuery.type
 import { matchPath } from 'react-router-dom'
 import { platformNavItems } from '@/configs/nav-config'
 import { WHITE_LIST } from '@/constants/whiteList.constant'
+import { SelectOption } from './helperFuntion.type'
 
 
 // ============================================================================
@@ -121,4 +122,16 @@ export const removeAllAuthCookies = (): void => {
   );
 
   return route?.title ?? "Admin";
+}
+
+
+export const mapEnumToSelectOptions = <
+  T extends Record<string, string | boolean>
+>(
+  enumObject: T
+): SelectOption[] => {
+  return Object.entries(enumObject).map(([key, value]) => ({
+    label: String(value), // đảm bảo label là string
+    value: key
+  }));
 };
