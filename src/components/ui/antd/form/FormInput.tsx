@@ -1,7 +1,7 @@
 import { Control, FieldValues, Path } from "react-hook-form";
 import { FormField } from "./FormField";
 import { Input } from "../ui";
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@components/icons';
 import { ReactNode } from "react";
 
 interface FormInputProps<T extends FieldValues> {

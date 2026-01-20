@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { InboxOutlined } from '@ant-design/icons'
+import { InboxOutlined } from '@components/icons'
 import { Upload, Image } from 'antd'
 import type { UploadFile, UploadProps } from 'antd'
 import { Control, FieldValues, Path } from 'react-hook-form'

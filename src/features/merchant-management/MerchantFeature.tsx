@@ -1,6 +1,7 @@
 import { ButtonComponent, CardComponent, Table } from '@/components/ui/antd/ui'
 import React from 'react'
 import useMerchant from './hooks/useMerchant'
+import { PlusCircleOutlined } from '@/components/icons'
 
 const MerchantFeature = () => {
   const{dataSourceMerchant , columns}=useMerchant()
@@ -10,8 +11,9 @@ const MerchantFeature = () => {
       <CardComponent
         content={
           <>
-            <div className="flex justify-end mb-3">
-              <ButtonComponent content={'Thêm mới'} />
+            <div className="flex justify-between items-end mb-3">
+              <span className='font-bold text-xl'>Merchant</span>
+              <ButtonComponent content={<><PlusCircleOutlined /> Thêm mới</>} />
             </div>
             <Table 
             rowKey={'id'}

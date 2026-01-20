@@ -4,11 +4,12 @@ import { RouterProvider } from "react-router-dom";
 import { AppRoutes } from "@/route";
 import { Provider } from "react-redux";
 import { store } from "@/stores/store";
-import "./index.css";
 import { Toaster } from "@/components/ui/sonner";
 import ScreenLoading from "@/components/loading/ScreenLoading";
 import { ConfigProvider } from "antd";
+import { StyleProvider } from "@ant-design/cssinjs";
 
+import "./index.css";
 
 
 const primaryColor = '#2bd9d0'
@@ -34,12 +35,13 @@ const theme = {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
+      <StyleProvider layer>
         <ConfigProvider theme={theme}>
-          <RouterProvider router={AppRoutes}  prefixCls="my-antd"/>
+          <RouterProvider router={AppRoutes} />
           <Toaster />
           <ScreenLoading />
         </ConfigProvider>
+      </StyleProvider>
     </Provider>
   </StrictMode>
 );
-

@@ -11,10 +11,9 @@ interface Props extends  Omit<ButtonProps, 'content'> {
   htmlType?: "button" | "submit" | "reset" | undefined,
   className?:string
 }
-const ButtonComponent = ({ onClick, content, icon, type, variant, color, form,className, htmlType, ...rest }: Props) => {
-  const AntButton = Button;
+const ButtonComponent = ({ onClick, content, icon, type, variant, color, form,className='flex items-center gap-1', htmlType, ...rest }: Props) => {
   return (
-      <AntButton
+      <Button
         type={type ?? 'primary'}
         onClick={onClick}
         color={color}
@@ -24,9 +23,8 @@ const ButtonComponent = ({ onClick, content, icon, type, variant, color, form,cl
         htmlType={htmlType}
         {...rest}
       >
-        {icon}
         {content}
-      </AntButton>
+      </Button>
   )
 }
 

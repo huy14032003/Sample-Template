@@ -1,4 +1,4 @@
-import { EyeFilled } from "@/components/icons/common";
+import { DeleteOutlined, EditOutlined, EyeFilled } from "@/components/icons";
 import { ButtonComponent } from "@/components/ui/antd/ui";
 import { ColumnsType } from "antd/es/table";
 
@@ -47,10 +47,15 @@ export const MerchanColumn=():ColumnsType=>[
         title:'Hành động',
         dataIndex:'',
         align:'center',
+        width:100,
         render(value, record, index) {
+
+        const defaultClass=(color:string)=>`text-${color} bg-${color} border-${color} hover:text-${color}-100 hover:bg-${color}-100 hover:border-${color}-100 `
             return(
-                <div className="">
-                    <ButtonComponent type="primary" className="text-red bg-green" size="small" icon={<EyeFilled/>}/>
+                <div className="flex items-center gap-1">
+                    <ButtonComponent type="default" className={defaultClass('blue')}size="small" content={<><EyeFilled/></>}/>
+                    <ButtonComponent type="primary" className={defaultClass('yellow')} size="small" content={<><EditOutlined/></>}/>
+                    <ButtonComponent type="default" danger size="small" content={<><DeleteOutlined/></>}/>
                 </div>
             )
         },
