@@ -1,4 +1,6 @@
+@layer theme, base, antd, utilities;
 @import "tailwindcss";
+
 @import "tw-animate-css";
 
 /* Enable dark mode with class selector */

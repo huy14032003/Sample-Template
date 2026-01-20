@@ -8,11 +8,10 @@ import "./index.css";
 import { Toaster } from "@/components/ui/sonner";
 import ScreenLoading from "@/components/loading/ScreenLoading";
 import { ConfigProvider } from "antd";
+import { StyleProvider } from "@ant-design/cssinjs";
 
-
-
-const primaryColor = '#2bd9d0'
-const primaryHoverColor = '#9feeea'
+const primaryColor = "#2bd9d0";
+const primaryHoverColor = "#9feeea";
 
 const theme = {
   hashed: false,
@@ -28,18 +27,19 @@ const theme = {
       colorPrimary: primaryColor,
       colorPrimaryHover: primaryHoverColor,
     },
-  }
-}
+  },
+};
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-        <ConfigProvider theme={theme}>
-          <RouterProvider router={AppRoutes}  prefixCls="my-antd"/>
+      <StyleProvider layer>
+        <ConfigProvider theme={theme} prefixCls="my-antd">
+          <RouterProvider router={AppRoutes} />
           <Toaster />
           <ScreenLoading />
         </ConfigProvider>
+      </StyleProvider>
     </Provider>
-  </StrictMode>
+  </StrictMode>,
 );
-
