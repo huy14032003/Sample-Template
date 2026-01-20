@@ -1,5 +1,5 @@
 import { NavItem, TeamData, UserData } from "@/types/nav.type";
-import { DASHBOARD, FEEMANAGEMENT, HOME } from "@/constants/route.constant";
+import { DASHBOARD, FEEMANAGEMENT, HOME, MERCHANTMANAGEMENT, ORDERMANAGEMENT } from "@/constants/route.constant";
 import { Home, LayoutDashboard, Frame } from "lucide-react";
 
 /**
@@ -17,24 +17,31 @@ export const platformNavItems: NavItem[] = [
         title: "Page 1",
         url: HOME+'/page_1',
       },
-      {
-        title: "Page 2",
-        url: HOME + '/abc',
-      },
+      // {
+      //   title: "Page 2",
+      //   url: HOME + '/abc',
+      // },
     ],
   },
   {
     title: "Dashboard",
     url: DASHBOARD,
     icon: LayoutDashboard,
-    // No permission = always visible
-    permission:'123'
+  },
+  {
+    title: "Quản lý merchant",
+    url: MERCHANTMANAGEMENT,
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Quản lý Order",
+    url: ORDERMANAGEMENT,
+    icon: LayoutDashboard,
   },
   {
     title: "Fee Management",
     url: FEEMANAGEMENT,
     icon: LayoutDashboard,
-    permission: "EWALLET:FEE:VIEW", // Requires FEE permission to view
   },
 ];
 

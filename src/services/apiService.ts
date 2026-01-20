@@ -30,3 +30,15 @@ export const baseRefreshQuery = fetchBaseQuery({
   baseUrl: ENV.API_LOGIN,
   credentials: "include",
 });
+
+export const baseMerchantQuery = fetchBaseQuery({
+  baseUrl: ENV.API_MERCHANR,
+  credentials: "include",
+  prepareHeaders: (headers) => {
+    const accessToken = Cookies.get(CookieKey.ACCESS_TOKEN);
+    if (accessToken) {
+      headers.set("authorization", `Bearer ${accessToken}`);
+    }
+    return headers;
+  },
+})

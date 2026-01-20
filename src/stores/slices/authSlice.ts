@@ -3,6 +3,7 @@ import { AuthState } from '@/features/auth'
 import { decodeToken } from '@/utils'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Cookies from 'js-cookie'
+import { setAccessToken as setAccessTokenWithExpiry, clearTokens } from '@/utils/tokenUtils'
 
 
 
@@ -34,7 +35,8 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setAccessToken: (state, action: PayloadAction<string>) => {
-            Cookies.set(CookieKey.ACCESS_TOKEN, action.payload, { expires: CookieExpiry.ACCESS_TOKEN_MINUTES / 1440 })
+            // Sử dụng utility function để lưu token và expiry time
+            setAccessTokenWithExpiry(action.payload, CookieExpiry.ACCESS_TOKEN_SECONDS)
             state.accessToken = action.payload
             // Decode và lấy permissions, roles từ token
             const tokenInfo = decodeToken(action.payload)
@@ -51,8 +53,7 @@ const authSlice = createSlice({
             state.refreshToken = action.payload
         },
         logout() {
-            Cookies.remove(CookieKey.ACCESS_TOKEN)
-            Cookies.remove(CookieKey.REFRESH_TOKEN)
+            clearTokens()
             Cookies.remove('sidebar_state')
             return {
                 ...initialState,

@@ -22,16 +22,12 @@ const useLogin = () => {
   const dispatch = useAppDispatch();
 
   async function formSubmit(data: LoginFormValues) {
-    try {
       const response = await postLogin(data).unwrap();
       // Lưu token vào Redux store và Cookies
       dispatch(setAccessToken(response?.data?.accessToken));
       dispatch(setRefreshToken(response?.data?.refreshToken));
       navigate("/");
-    } catch (error: unknown) {
-      const err = error as ErrorResponse;
-      toast.error(err?.data?.detail)
-    }
+    
   }
   return {
     formSubmit,

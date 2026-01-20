@@ -46,6 +46,7 @@
   /* Custom semantic colors */
   --color-main: var(--main);
   --color-content-card: var(--content-card);
+
 }
 
 :root {
@@ -135,5 +136,171 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Flexbox Utilities */
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+  .flex-start {
+    @apply flex justify-start items-center;
+  }
+  .flex-end {
+    @apply flex justify-end items-center;
+  }
+  .flex-col-center {
+    @apply flex flex-col justify-center items-center;
+  }
+  .flex-col-start {
+    @apply flex flex-col justify-start items-start;
+  }
+  .flex-col-end {
+    @apply flex flex-col justify-end items-end;
+  }
+
+  /* Text Color Utilities */
+  .text-red {
+    color: var(--color-red-600) !important;
+  }
+  .text-green {
+    color: var(--color-green-600) !important;
+  }
+  .text-yellow {
+    color: var(--color-yellow-600) !important;
+  }
+  .text-orange {
+    color: var(--color-orange-600) !important;
+  }
+  .text-blue {
+    color: var(--color-blue-600) !important;
+  }
+  .text-gray {
+    color: var(--color-gray-600) !important;
+  }
+  .text-purple {
+    color: var(--color-purple-600) !important;
+  }
+  .text-pink {
+    color: var(--color-pink-600) !important;
+  }
+
+  /* Border Color Utilities */
+  .border-red {
+    border-color: var(--color-red-500) !important;
+  }
+  .border-green {
+    border-color: var(--color-green-500) !important;
+  }
+  .border-blue {
+    border-color: var(--color-blue-500) !important;
+  }
+  .border-yellow {
+    border-color: var(--color-yellow-500) !important;
+  }
+  .border-orange {
+    border-color: var(--color-orange-500) !important;
+  }
+  .border-gray {
+    border-color: var(--color-gray-500) !important;
+  }
+  .border-purple {
+    border-color: var(--color-purple-500) !important;
+  }
+  .border-pink {
+    border-color: var(--color-pink-500) !important;
+  }
+
+  /* Background Color Utilities */
+  .bg-red {
+    background-color: var(--color-red-50) !important;
+  }
+  .bg-yellow {
+    background-color: var(--color-yellow-50) !important;
+  }
+  .bg-green {
+    background-color: var(--color-green-50) !important;
+  }
+  .bg-blue {
+    background-color: var(--color-blue-50) !important;
+  }
+  .bg-gray {
+    background-color: var(--color-gray-50) !important;
+  }
+  .bg-purple {
+    background-color: var(--color-purple-50) !important;
+  }
+  .bg-pink {
+    background-color: var(--color-pink-50) !important;
+  }
+  .bg-orange {
+    background-color: var(--color-orange-50) !important;
+  }
+
+  /* Status Badge Utilities */
+  .badge-success {
+    @apply bg-green-100 text-green-700 border-green-300;
+  }
+  .badge-error {
+    @apply bg-red-100 text-red-700 border-red-300;
+  }
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-700 border-yellow-300;
+  }
+  .badge-info {
+    @apply bg-blue-100 text-blue-700 border-blue-300;
+  }
+  .badge-neutral {
+    @apply bg-gray-100 text-gray-700 border-gray-300;
+  }
+
+  /* Card Utilities */
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  /* Text Utilities */
+  .text-ellipsis-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .text-ellipsis-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Scrollbar Utilities */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(203 213 225) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgb(203 213 225);
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgb(148 163 184);
+  }
+
+  /* Transition Utilities */
+  .transition-base {
+    @apply transition-all duration-200 ease-in-out;
   }
 }

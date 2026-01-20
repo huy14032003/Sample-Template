@@ -5,6 +5,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "./app-sidebar";
 import { toggleTheme } from "@/stores/slices/themeSlice";
 import usePermission from "@/hooks/usePermission";
+import { useTokenRefresh } from "@/hooks/useTokenRefresh";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -53,6 +54,9 @@ const AppLayout = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const title = getTitleFromPath(location.pathname);
+
+  // Check và refresh token khi app mount hoặc route change
+  useTokenRefresh();
 
   const breadcrumbItems = useMemo(() => {
     const pathSegments = location.pathname.split("/").filter(Boolean);

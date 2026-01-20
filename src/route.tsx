@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import AuthPage from "@pages/auth/AuthPage";
-import { AUTHENTICATION, DASHBOARD, FEEMANAGEMENT, HOME } from "@constants/route.constant";
+import { AUTHENTICATION, DASHBOARD, FEEMANAGEMENT, HOME, MERCHANTMANAGEMENT, ORDERMANAGEMENT } from "@constants/route.constant";
 import AuthLayout from "@components/layouts/auth-layout/AuthLayout";
 import NotFound from "@components/Error/NotFound";
 import HomePage from "@pages/home/HomePage";
@@ -10,6 +10,8 @@ import AppLayout from "@/components/layouts/app-layout/AppLayout";
 import FeePolicy from "@/pages/fee-management/fee-policy/FeePolicy";
 import { rootRedirect, forbiddenRoute, notFoundRoute } from "./routes/errorRoutes";
 import Page from "@/pages/home/Page";
+import MerchantPage from "./pages/merchant-page/MerchantPage";
+import OrderPage from "./pages/order-page/OrderPage";
 
 const authentication = {
   path: AUTHENTICATION,
@@ -52,6 +54,7 @@ const dashboard = {
     },
   ],
 };
+
 const feeManagement = {
   path: FEEMANAGEMENT,
   element: createElement(AppLayout),
@@ -63,6 +66,28 @@ const feeManagement = {
     },
   ],
 };
+const merchantManagement={
+  path:MERCHANTMANAGEMENT,
+  element: createElement(AppLayout),
+  errorElement: createElement(NotFound),
+  children: [
+    {
+      index: true,
+      element: createElement(MerchantPage),
+    },
+  ],
+}
+const orderManagement={
+  path:ORDERMANAGEMENT,
+  element: createElement(AppLayout),
+  errorElement: createElement(NotFound),
+  children: [
+    {
+      index: true,
+      element: createElement(OrderPage),
+    },
+  ],
+}
 
 export const AppRoutes = createBrowserRouter([
   rootRedirect,
@@ -71,5 +96,7 @@ export const AppRoutes = createBrowserRouter([
   dashboard,
   feeManagement,
   forbiddenRoute,
+  merchantManagement,
+  orderManagement,
   notFoundRoute, // Must be last
 ]);

@@ -24,7 +24,7 @@ const FormLogin = () => {
             name="username"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Tài khoản</FormLabel>
                 <FormControl>
                   <Input placeholder="Username..." {...field} />
                 </FormControl>
@@ -37,7 +37,7 @@ const FormLogin = () => {
             name="password"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>PassWord</FormLabel>
+                <FormLabel>Mật khẩu</FormLabel>
                 <FormControl>
                   <PasswordInput placeholder="password..." {...field} />
                 </FormControl>
