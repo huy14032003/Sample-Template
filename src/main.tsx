@@ -7,13 +7,38 @@ import { store } from "@/stores/store";
 import "./index.css";
 import { Toaster } from "@/components/ui/sonner";
 import ScreenLoading from "@/components/loading/ScreenLoading";
+import { ConfigProvider } from "antd";
+
+
+
+const primaryColor = '#2bd9d0'
+const primaryHoverColor = '#9feeea'
+
+const theme = {
+  hashed: false,
+  token: {
+    colorPrimary: primaryColor,
+    colorInfo: primaryColor,
+    colorLink: primaryColor,
+    colorLinkHover: primaryHoverColor,
+    colorPrimaryHover: primaryHoverColor,
+  },
+  components: {
+    Button: {
+      colorPrimary: primaryColor,
+      colorPrimaryHover: primaryHoverColor,
+    },
+  }
+}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={AppRoutes} />
-      <Toaster />
-      <ScreenLoading />
+        <ConfigProvider theme={theme}>
+          <RouterProvider router={AppRoutes}  prefixCls="my-antd"/>
+          <Toaster />
+          <ScreenLoading />
+        </ConfigProvider>
     </Provider>
   </StrictMode>
 );

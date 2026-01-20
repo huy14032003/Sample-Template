@@ -5,6 +5,7 @@ import loadingReducer from './slices/loadingSlice'
 import { authApiService, apiFeeService } from './api/baseApi'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import { errorMiddleware } from '@/middleware/errorMiddleware'
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,11 @@ export const store = configureStore({
     [apiFeeService.reducerPath]: apiFeeService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApiService.middleware, apiFeeService.middleware),
+    getDefaultMiddleware().concat(
+      authApiService.middleware,
+      apiFeeService.middleware,
+      errorMiddleware,
+    ),
 })
 setupListeners(store.dispatch)
 
