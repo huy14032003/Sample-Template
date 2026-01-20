@@ -17,6 +17,7 @@ import {
 import { NavItem } from "@/types/nav.type";
 import { platformNavItems } from "@/configs/nav-config";
 import { Globe, Languages, Moon, Sun } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Convert path segment to readable title (e.g., "fee-management" -> "Fee Management")
 type NavMap = Record<string, string>;
@@ -64,9 +65,10 @@ const AppLayout = () => {
       return { path, label, isLast };
     });
 
-    if (items.length > 4) {
+    // Nếu có 3 items trở lên, rút gọn thành: first > ... > last
+    if (items.length >= 3) {
       return [
-        items[0], // First item
+        // items[0], // First item
         { path: "", label: "...", isLast: false, isEllipsis: true }, // Ellipsis
         items[items.length - 1], // Last item
       ];
@@ -96,35 +98,62 @@ const AppLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <header className="sticky top-0 z-50 flex h-16 shrink-0 justify-between items-center gap-2 border-b bg-background px-4">
-          <div className="flex items-center gap-2">
-            <SidebarTrigger className="-ml-1" size="icon-lg" />
-            <div>
-              <span className="font-medium text-primary">{title}</span>
+      <SidebarInset className="flex flex-col h-screen overflow-hidden">
+        <header className="flex h-16 shrink-0 justify-between items-center gap-2 border-b bg-background px-4">
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <SidebarTrigger className="-ml-1 shrink-0" size="icon-lg" />
+            <div className="min-w-0 overflow-hidden">
+              <span className="font-medium text-primary block truncate">{title}</span>
               <Breadcrumb>
-                <BreadcrumbList>
+                <BreadcrumbList className="flex-nowrap whitespace-nowrap overflow-hidden text-ellipsis">
                   <BreadcrumbItem>
                     <BreadcrumbLink asChild>
                       <Link to="/">Flexpay</Link>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   {breadcrumbItems.map((item, index) => (
-                    <div key={item.path || index} className="flex items-center gap-1.5">
+                    <BreadcrumbItem
+                      key={item.path || index}
+                      className="min-w-0 max-w-28 md:max-w-full"
+                    >
                       <BreadcrumbSeparator />
-                      <BreadcrumbItem>
-                        {"isEllipsis" in item && item.isEllipsis ? (
-                          <BreadcrumbEllipsis />
-                        ) : item.isLast ? (
-                          <BreadcrumbPage>{item.label}</BreadcrumbPage>
-                        ) : (
-                          <BreadcrumbLink asChild>
-                            <Link to={item.path}>{item.label}</Link>
-                          </BreadcrumbLink>
-                        )}
-                      </BreadcrumbItem>
-                    </div>
+
+                      {"isEllipsis" in item && item.isEllipsis ? (
+                        <BreadcrumbEllipsis />
+                      ) : item.isLast ? (
+                        <BreadcrumbPage className="min-w-0">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="block truncate">
+                                {item.label}
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{item.label}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink asChild>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Link
+                                to={item.path}
+                                className="block max-w-28 md:max-w-full truncate"
+                              >
+                                {item.label}
+                              </Link>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>{item.label}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
                   ))}
+
+
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
@@ -134,14 +163,14 @@ const AppLayout = () => {
             <button
               onClick={() => dispatch(toggleTheme())}
               className="rounded-full h-7 w-7 text-lg font-medium transition-all duration-300 cursor-pointer flex justify-center items-center  hover:text-gray-950  dark:hover:text-white">
-              {theme === "light" ? <Sun size={18}/>: <Moon size={18}/> }
+              {theme === "light" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button className=" hover:text-gray-950 cursor-pointer dark:hover:text-white">
-              <Languages size={18}/>
+              <Languages size={18} />
             </button>
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 overflow-auto p-4 bg-main">
+        <main className="flex-1 flex flex-col gap-4 overflow-y-auto overflow-x-hidden p-4 bg-main min-w-0">
           <Outlet />
         </main>
       </SidebarInset>
