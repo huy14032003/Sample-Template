@@ -61,9 +61,8 @@ export const errorMiddleware: Middleware = (storeApi) => (next) => (action) => {
     switch (statusCode) {
       case 401:
         toast.error(errorMessage)
-        // Dispatch logout action and redirect
         storeApi.dispatch(logout())
-        window.location.href = '/login'
+        window.location.href = '/auth/login'
         break
 
       case 403:
@@ -71,7 +70,6 @@ export const errorMiddleware: Middleware = (storeApi) => (next) => (action) => {
         break
 
       case 404:
-        // Only show 404 for non-GET requests or important resources
         toast.warning(errorMessage)
         break
 

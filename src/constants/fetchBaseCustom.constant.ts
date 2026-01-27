@@ -27,12 +27,16 @@ export enum TokenType {
 
 export enum CookieKey {
     ACCESS_TOKEN = 'access_token',
-    REFRESH_TOKEN = 'refresh_token'
+    REFRESH_TOKEN = 'refresh_token',
+    ACCESS_TOKEN_EXPIRY = 'access_token_expiry'
 }
 
 export const CookieExpiry = {
     ACCESS_TOKEN_MINUTES: 5,
-    REFRESH_TOKEN_MINUTES: 60
+    REFRESH_TOKEN_MINUTES: 60,
+    ACCESS_TOKEN_SECONDS: 300,
+    REFRESH_TOKEN_SECONDS: 3600,
+    REFRESH_THRESHOLD_SECONDS: 30 // Refresh khi còn 30s
 } as const
 
 

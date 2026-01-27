@@ -1,16 +1,16 @@
 import {
   ApiErrorResponse,
-  CookieExpiry,
   RefreshResponse,
   RequestArgs,
   TokenType,
 } from "@/types/fetchBaseQuery.type";
-import { CookieKey, FETCH_ERROR, HttpStatus } from "@/constants/fetchBaseCustom.constant";
-import { baseQueryCustom, baseRefreshQuery, feeBaseQueryCustom } from "@/services/apiService";
+import { CookieKey, CookieExpiry, FETCH_ERROR, HttpStatus } from "@/constants/fetchBaseCustom.constant";
+import {  baseQueryCustom, baseRefreshQuery, feeBaseQueryCustom } from "@/services/apiService";
 import { callApi, isInWhiteList, normalizePathname } from "@/utils/helperFuntion";
 import { BaseQueryApi, BaseQueryFn, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import Cookies from "js-cookie";
 import { startLoading, stopLoading } from "@/stores/slices/loadingSlice";
+import { setAccessToken, shouldRefreshToken, clearTokens } from "@/utils/tokenUtils";
 
 let isRefreshing = false;
 let refreshPromise: Promise<string | null> | null = null;
@@ -41,11 +41,12 @@ const refreshAccessToken = async (api: BaseQueryApi, extraOptions: Record<string
 
       // Sử dụng expiresIn từ API (đơn vị giây), fallback 300 giây
       const expiresInSeconds = data?.[TokenType.EXPIRES_IN] || CookieExpiry.ACCESS_TOKEN_SECONDS;
-      const expiresInDays = expiresInSeconds / 86400;
-      Cookies.set(CookieKey.ACCESS_TOKEN, newAccessToken, { expires: expiresInDays });
+
+      // Lưu access token và expiry time
+      setAccessToken(newAccessToken, expiresInSeconds);
 
       if (data?.[TokenType.REFRESH_TOKEN]) {
-        // Sử dụng refreshExpiresIn từ API (đơn vị giây), fallback 1800 giây
+        // Sử dụng refreshExpiresIn từ API (đơn vị giây), fallback 3600 giây
         const refreshExpiresInSeconds = data?.[TokenType.REFRESH_EXPIRES_IN] || CookieExpiry.REFRESH_TOKEN_SECONDS;
         const refreshExpiresInDays = refreshExpiresInSeconds / 86400;
         Cookies.set(CookieKey.REFRESH_TOKEN, data[TokenType.REFRESH_TOKEN], { expires: refreshExpiresInDays });
@@ -65,8 +66,7 @@ const refreshAccessToken = async (api: BaseQueryApi, extraOptions: Record<string
 };
 
 const forceLogout = (): void => {
-  Cookies.remove(CookieKey.ACCESS_TOKEN);
-  Cookies.remove(CookieKey.REFRESH_TOKEN);
+  clearTokens();
   window.location.href = "/auth/login";
 };
 
@@ -93,6 +93,25 @@ const createCustomBaseQuery = (
     const isLoading = requestArgs?.params?.isLoading;
     const apiEndPoint = typeof args === "string" ? args : requestArgs?.url;
 
+    // ============================================================================
+    // PROACTIVE TOKEN REFRESH - Check và refresh token trước khi call API
+    // ============================================================================
+    if (shouldRefreshToken()) {
+      const newAccessToken = await refreshAccessToken(api, extraOptions as Record<string, unknown>);
+
+      if (!newAccessToken) {
+        // Nếu refresh thất bại, logout ngay
+        alert('Đã hết phiên đăng nhập, vui lòng đăng nhập lại để tiếp tục!')
+        forceLogout();
+        return {
+          error: {
+            status: HttpStatus.UNAUTHORIZED,
+            data: { message: "Session expired" }
+          }
+        } as { error: FetchBaseQueryError };
+      }
+    }
+
     // Show loading if not disabled and not in whitelist
     const shouldShowLoading = isLoading !== false && !isInWhiteList(apiEndPoint, pathName);
 
@@ -115,6 +134,7 @@ const createCustomBaseQuery = (
           const newAccessToken = await refreshAccessToken(api, extraOptions as Record<string, unknown>);
 
           if (!newAccessToken) {
+             alert('Đã hết phiên đăng nhập, vui lòng đăng nhập lại để tiếp tục!')
             forceLogout();
             break;
           }
