@@ -20,6 +20,13 @@ export const getAccessToken = (): string | undefined => {
 };
 
 /**
+ * Lấy refresh token từ cookies
+ */
+export const getRefreshToken = (): string | undefined => {
+  return Cookies.get(CookieKey.REFRESH_TOKEN);
+};
+
+/**
  * Lấy expiry timestamp của access token
  */
 export const getAccessTokenExpiry = (): number | null => {
@@ -50,12 +57,19 @@ export const isTokenExpiringSoon = (thresholdSeconds: number = CookieExpiry.REFR
 /**
  * Kiểm tra xem có cần refresh token không
  * Token cần refresh nếu:
- * 1. Đã hết hạn, hoặc
- * 2. Sắp hết hạn (trong vòng threshold)
+ * 1. Không có access token nhưng vẫn còn refresh token (access token hết hạn và bị xóa), hoặc
+ * 2. Đã hết hạn, hoặc
+ * 3. Sắp hết hạn (trong vòng threshold)
  */
 export const shouldRefreshToken = (): boolean => {
-  const token = getAccessToken();
-  if (!token) return false;
+  const accessToken = getAccessToken();
+  const refreshToken = getRefreshToken();
+
+  // Nếu không có access token nhưng vẫn còn refresh token → cần refresh
+  if (!accessToken && refreshToken) return true;
+
+  // Nếu không có cả access token lẫn refresh token → không cần refresh (sẽ chuyển login)
+  if (!accessToken) return false;
 
   return isTokenExpired() || isTokenExpiringSoon();
 };

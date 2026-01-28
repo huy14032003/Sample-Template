@@ -19,7 +19,7 @@ export const platformNavItems: NavItem[] = [
       },
       {
         title: "Page 2",
-        url: HOME + '/abc',
+        url: HOME + '/page_2',
       },
     ],
   },
