@@ -28,7 +28,7 @@ export default defineConfig([
       '@typescript-eslint/no-unused-expressions': 'off',
 
       // Cho phép any type (tùy chọn, có thể bật lại nếu cần strict)
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
 
       // Cho phép empty functions
       '@typescript-eslint/no-empty-function': 'off',
