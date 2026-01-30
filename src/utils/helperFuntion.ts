@@ -92,12 +92,6 @@ export const setRefreshTokenCookie = (token: string, expiresInSeconds: number = 
     })
 }
 
-/**
- * Get refresh token from cookie
- */
-export const getRefreshTokenCookie = (): string | undefined => {
-    return Cookies.get(CookieKey.REFRESH_TOKEN)
-}
 
 /**
  * Remove refresh token cookie

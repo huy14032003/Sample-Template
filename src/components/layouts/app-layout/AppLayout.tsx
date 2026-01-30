@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { useEffect, useMemo } from "react";
-import { Outlet, useLocation, Navigate, Link } from "react-router-dom";
+import { Outlet, useLocation, Navigate, Link, useNavigate } from "react-router-dom";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
 import { toggleTheme } from "@/stores/slices/themeSlice";
@@ -14,46 +14,57 @@ import {
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
 } from "@/components/ui/breadcrumb";
-import { NavItem } from "@/types/nav.type";
-import { platformNavItems } from "@/configs/nav-config";
-import { Globe, Languages, Moon, Sun } from "lucide-react";
+import { Languages, Moon, Sun } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { getAccessToken, getRefreshToken } from "@/utils/tokenUtils";
+import headerTitleMap from "@/configs/headerTitle.json";
 
-// Convert path segment to readable title (e.g., "fee-management" -> "Fee Management")
-type NavMap = Record<string, string>;
-
-const buildNavTitleMap = (navItems: NavItem[]): NavMap => {
-  const map: NavMap = {};
-
-  navItems.forEach((nav) => {
-    map[nav.url] = nav.title;
-    nav.items?.forEach((item) => {
-      map[item.url] = item.title;
-    });
-  });
-
-  return map;
-};
 const formatPathSegment = (segment: string): string => {
   return segment
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
-const NAV_TITLE_MAP = buildNavTitleMap(platformNavItems);
+const titleMap = headerTitleMap as Record<string, string>;
+
+/**
+ * Kiểm tra path có match với pattern (hỗ trợ wildcard *)
+ * Ví dụ: "/home/page_2/*" match với "/home/page_2/1", "/home/page_2/abc"
+ */
+const matchPattern = (pattern: string, path: string): boolean => {
+  if (pattern === path) return true;
+
+  if (pattern.endsWith("/*")) {
+    const prefix = pattern.slice(0, -1);
+    return path.startsWith(prefix);
+  }
+
+  return false;
+};
 
 const getTitleFromPath = (path: string): string => {
-  return NAV_TITLE_MAP[path] ?? formatPathSegment(path.split("/").pop() ?? "");
+  if (titleMap[path]) {
+    return titleMap[path];
+  }
+
+  const matchedKey = Object.keys(titleMap).find((key) => matchPattern(key, path));
+  if (matchedKey) {
+    return titleMap[matchedKey];
+  }
+
+  return formatPathSegment(path.split("/").pop() ?? "");
 };
 
 const AppLayout = () => {
   const { theme } = useAppSelector((state) => state.theme);
-  const { accessToken } = useAppSelector((state) => state.auth);
+  // const { accessToken } = useAppSelector((state) => state.auth);
   const { isRouteAccessible } = usePermission();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const title = getTitleFromPath(location.pathname);
 
+
+  const navigate = useNavigate()
   const breadcrumbItems = useMemo(() => {
     const pathSegments = location.pathname.split("/").filter(Boolean);
     if (pathSegments.length === 0) return [];
@@ -86,10 +97,14 @@ const AppLayout = () => {
   }, [theme]);
 
   useEffect(() => {
+
+    const accessToken = getAccessToken()
+    const refreshToken = getRefreshToken()
     if (!accessToken) {
-      window.location.href = "/auth/login";
+      // alert("Phiên đăng nhập hết hạn, vui lòng đăng nhập lại để tiếp tục!")
+      navigate('/auth/login')
     }
-  }, [accessToken]);
+  }, [navigate]);
 
   if (!isRouteAccessible) {
     return <Navigate to="/403" replace />;

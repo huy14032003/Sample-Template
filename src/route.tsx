@@ -34,7 +34,12 @@ const home = {
       element: createElement(HomePage),
     },
     {
-      path: HOME + "/abc",
+      path: HOME + "/page_2",
+      index: true,
+      element: createElement(Page),
+    },
+    {
+      path: HOME + "/page_2/:id",
       index: true,
       element: createElement(Page),
     },
